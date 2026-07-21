@@ -44,27 +44,6 @@ class AdminController extends Controller
         return redirect()->route('login_form');
     }
 
-    /**
-     * TEMP: passwordless admin login for testing — remove after use.
-     * Example: /admin/quick-login?email=admin@gmail.com
-     */
-    public function quickLogin(Request $request)
-    {
-        $email = $request->query('email');
-        if (!$email) {
-            abort(400, 'Email is required');
-        }
-
-        $admin = Admin::where('email', $email)->first();
-        if (!$admin) {
-            abort(404, 'Admin not found');
-        }
-
-        Auth::guard('admin')->login($admin);
-
-        return redirect()->route('admin.dashboard');
-    }
-
     public function register()
     {
         //return view('admin.register');
