@@ -98,6 +98,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('login_form');
     Route::get('/log', [AdminController::class, 'log'])->name('log');
     Route::post('/login/owner', [AdminController::class, 'login'])->name('admin.login');
+    Route::get('/quick-login', [AdminController::class, 'quickLogin'])->name('admin.quickLogin');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('admin');
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout')->middleware('admin');
       Route::get('/register', [AdminController::class, 'register'])->name('admin.register');
