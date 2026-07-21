@@ -1,0 +1,13 @@
+
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+<FilesMatch "\.(jpg|jpeg|png|gif|css|js|pdf)$">
+    Require all granted
+</FilesMatch>
+<FilesMatch "\.(env|log|ini|bak|sql)$">
+    Require all denied
+</FilesMatch>

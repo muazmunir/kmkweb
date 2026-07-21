@@ -1,0 +1,51 @@
+.login-page {
+  width: 65%;
+    direction: rtl;
+    position: relative;
+    display: block;
+    padding: 100px 0 100px;
+    margin:auto;
+}
+.contact-page__input-box input[type="password"] {
+    height: 67px;
+    width: 100%;
+    border: none;
+    padding: 0 30px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    outline: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--thm-gray);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 7%);
+}
+.mobile-nav__wrapper {
+    direction: rtl;
+    left: auto !important;
+    right: auto !important;
+}
+.profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.section-title__tit{
+    margin: 0;
+    font-weight: 900;
+    color: var(--thm-black);
+    line-height: 62px;
+}
+.login-page__form {
+
+}
+.section-title-login {
+  margin: auto;
+z-index: 2;
+}
+.login-page__main-form {padding-bottom: 25px;}
+.login-link{ text-decoration:underline;}

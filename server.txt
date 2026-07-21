@@ -1,0 +1,24 @@
+FTP settings
+ftp_altkaful_tk
+WC5xNBwfB8tK7wan
+
+
+
+Database settings
+sql_altkaful_tk
+i4FtLyW6FnHjnisF
+
+
+FTP user profile
+
+User：ftp_altkaful_tk
+
+Password：WC5xNBwfB8tK7wan
+
+Database user profile
+
+Database name：sql_altkaful_tk
+
+User：sql_altkaful_tk
+
+Password：i4FtLyW6FnHjnisF
