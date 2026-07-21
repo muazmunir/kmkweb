@@ -108,7 +108,7 @@
        @foreach($payments as $payment)
            <tr>
                <td>{{$payment->id}}</td> <td>{{$payment->productname}} </td><td>{{$payment->product_id}}</td><td>{{$payment->sallername }}</td><td>{{$payment->paymethod }}</td><td>{{$payment->value}}</td><td>{{$payment->ref}}</td><td>{{$payment->result}}</td>
-               <td>{{$payment->created_at }} </td><td>{{$payment->username }}</td><td>{{$payment->phone }}</td>
+               <td>{{$payment->created_at }} </td><td>{{$payment->username }}</td><td>{{$payment->display_phone }}</td>
            </tr>
        @endforeach
    @else

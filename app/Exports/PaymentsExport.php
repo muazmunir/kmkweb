@@ -16,7 +16,7 @@ class PaymentsExport implements FromCollection,WithHeadings
         return Payemnts::Join('products','payemnts.product_id' , '=', 'products.id')
                     ->Join('sallers','payemnts.saller' , '=', 'sallers.id')
                     ->Join('users','payemnts.user_id' , '=', 'users.id')
-                           ->select(array('payemnts.id','products.name as productname','sallers.name AS sallername','payemnts.paymethod','payemnts.value','payemnts.session','payemnts.result','payemnts.created_at','users.name as username','users.phone as phone'))
+                           ->select(array('payemnts.id','products.name as productname','sallers.name AS sallername','payemnts.paymethod','payemnts.value','payemnts.session','payemnts.result','payemnts.created_at','users.name as username',\DB::raw('COALESCE(payemnts.phone, users.phone) as display_phone')))
   ->get();
     }
     

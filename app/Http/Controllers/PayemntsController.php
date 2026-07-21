@@ -29,7 +29,7 @@ class PayemntsController extends Controller
                     $payments = Payemnts::Join('products','payemnts.product_id' , '=', 'products.id')
                     ->Join('sallers','payemnts.saller' , '=', 'sallers.id')
                     ->Join('users','payemnts.user_id' , '=', 'users.id')
-                    ->select(array('payemnts.*','products.name as productname','sallers.name AS sallername','users.name as username' ,'users.phone as phone'))
+                    ->select(array('payemnts.*','products.name as productname','sallers.name AS sallername','users.name as username' ,\DB::raw('COALESCE(payemnts.phone, users.phone) as display_phone')))
                     ->orderBy('id', 'DESC')->paginate(15);
         //->join('sallers', 'sallers.id', '=', 'payemnts.saller')
        // ->where('products.product_id', $product_id)
@@ -119,7 +119,7 @@ class PayemntsController extends Controller
         -> join('products','payemnts.product_id' , '=', 'products.id')
         ->Join('sallers','payemnts.saller' , '=', 'sallers.id')
         ->Join('users','payemnts.user_id' , '=', 'users.id')
-        ->select(array('payemnts.*','products.name as productname','sallers.name AS sallername','users.name as username','users.phone as phone'))
+        ->select(array('payemnts.*','products.name as productname','sallers.name AS sallername','users.name as username',\DB::raw('COALESCE(payemnts.phone, users.phone) as display_phone')))
         ->paginate(15);
 
 
@@ -154,22 +154,21 @@ return view('dashboard',['payments'=>$payments,
         $total =  \Cart::getTotal() ;
         $paymethod = $request->paymethod ;
         $saller = Session::get('saller'); ;
-//         $random = rand(0, 1) ? 'Captured' : 'NotCuptured';
-//         $url ='?token='.$token.'&total='.$total.'&paymethod='.$paymethod.'&saller='.$saller .'&status='.$random;
 
-//   return redirect()->route('conferm',$url );
+        $phone = $request->input('phone');
+        if (!$phone && Auth::check()) {
+            $phone = Auth::user()->phone;
+        }
+        Session::put('donor_phone', $phone);
 
-
-     // $random = rand(0, 1) ? 'Captured' : 'NotCuptured';
         $mf ='https://baniwail.com/kpay/SendPerformREQuest.php' ;
-        $url = $mf.'?token='.$token.'&total='.$total.'&paymethod='.$paymethod.'&saller='.$saller.'&phone='.$request->phone ;
+        $url = $mf.'?token='.$token.'&total='.$total.'&paymethod='.$paymethod.'&saller='.$saller.'&phone='.urlencode($phone ?? '') ;
       return redirect()->to($url );
 
 
 
     }
     public function conferm(Request $request){
-        return  $request ;  
       //  $var = unserialize(urldecode($_GET['array']));
 
       $cartItems = \Cart::getContent();
@@ -178,6 +177,9 @@ return view('dashboard',['payments'=>$payments,
 
     if($request->status == 'Captured'){
         $userId = Auth::check() ? Auth::id() : true;
+        $phone = $request->input('phone')
+            ?: Session::get('donor_phone')
+            ?: (Auth::check() ? Auth::user()->phone : null);
 
 
         foreach ($cartItems as $item) {
@@ -206,6 +208,7 @@ return view('dashboard',['payments'=>$payments,
             $addpay = new Payemnts;
             $addpay->product_id = $product_id ;
             $addpay->user_id = $userId ?: 1;
+            $addpay->phone = $phone;
             $addpay->saller = $saller ?: 1;
             $addpay->paymethod =  $paymethod;
             $addpay->value =  $value;
@@ -225,6 +228,7 @@ return view('dashboard',['payments'=>$payments,
     }
 
     \Cart::clear();
+    Session::forget('donor_phone');
     Session::put('cartcount',0);
     $session = $request->token;
     return  redirect()->route('thanks',['total'=> $totaly , 'session'=>$session, 'status'=>'Captured' ])  ;
